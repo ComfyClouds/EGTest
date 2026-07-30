@@ -102,6 +102,13 @@ html[dir="rtl"] .news-card-readmore svg { transform: rotate(180deg); }
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
+  /* #news-modal-mount (the fetch() injection target this overlay lives
+     inside of) sets pointer-events: none on itself so its 0x0 wrapper
+     never blocks clicks on the page. Since pointer-events is inherited,
+     without this override every click on the modal — close button,
+     backdrop, article content — silently passed through to whatever
+     was behind it instead of being handled. */
+  pointer-events: auto;
   background: rgba(18, 22, 30, 0.65);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
