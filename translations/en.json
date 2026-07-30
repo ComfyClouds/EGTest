@@ -120,7 +120,8 @@
   "common": {
     "loading": "Loading…",
     "view_all": "View All",
-    "back_to_top": "Back to top"
+    "back_to_top": "Back to top",
+    "data_disclaimer": "Market data displayed on this site is delayed by at least 15 minutes. Information is provided for informational purposes only and does not constitute investment advice."
   },
   "pages": {
     "home": {
@@ -202,7 +203,6 @@
     "eyebrow": "Legal",
     "title": "Terms of Service",
     "subtitle": "Please read these terms carefully before using our platform.",
-    "data_disclaimer": "Market data displayed on this site is delayed by at least 15 minutes. Information is provided for informational purposes only and does not constitute investment advice.",
     "disclaimer_title": "Disclaimer",
     "disclaimer_body": "The information provided on our website is not intended for distribution or use by any person or entity in any jurisdiction or country, where such distribution or use would be contrary to any laws or regulations or would subject Economic Group or its affiliates to registration requirements within such jurisdiction or country. Neither the information, nor any opinion contained on this site, constitutes a solicitation or offer by Economic Group or its affiliates to buy or sell any security or to provide any investment advice or service.",
     "warranty_title": "Disclaimer of Warranty and Limitation of Liability",
