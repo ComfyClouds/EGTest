@@ -7,6 +7,12 @@
 
 (function () {
   const { qs, qsa, debounce, escapeHtml } = window.StockUtils;
+  const base = (typeof window.STOCK_BASE_PATH !== 'undefined') ? window.STOCK_BASE_PATH : '';
+  function navUrl(url) {
+    if (!url) return '#';
+    if (url.startsWith('http') || url.startsWith('/') || url.startsWith('#')) return url;
+    return base + url;
+  }
   let navData = [];
   let newsCache = [];
   // Lets the mobile drawer and search overlay close each other, since both
@@ -42,12 +48,12 @@
       .map((item) => {
         const label = lang === 'ar' ? item.LabelAR : item.LabelEN;
         if (!item.children.length) {
-          return `<div class="nav-item"><a class="nav-link" href="${escapeHtml(item.Url)}">${escapeHtml(label)}</a></div>`;
+          return `<div class="nav-item"><a class="nav-link" href="${escapeHtml(navUrl(item.Url))}">${escapeHtml(label)}</a></div>`;
         }
         const dropdownLinks = item.children
           .map((c) => {
             const cLabel = lang === 'ar' ? c.LabelAR : c.LabelEN;
-            return `<a class="nav-dropdown-link" href="${escapeHtml(c.Url)}">${escapeHtml(cLabel)}</a>`;
+            return `<a class="nav-dropdown-link" href="${escapeHtml(navUrl(c.Url))}">${escapeHtml(cLabel)}</a>`;
           })
           .join('');
         return `
@@ -92,12 +98,12 @@
       .map((item, index) => {
         const label = lang === 'ar' ? item.LabelAR : item.LabelEN;
         if (!item.children.length) {
-          return `<a class="mobile-nav-link" href="${escapeHtml(item.Url)}" data-close-drawer>${escapeHtml(label)}</a>`;
+          return `<a class="mobile-nav-link" href="${escapeHtml(navUrl(item.Url))}" data-close-drawer>${escapeHtml(label)}</a>`;
         }
         const subLinks = item.children
           .map((c) => {
             const cLabel = lang === 'ar' ? c.LabelAR : c.LabelEN;
-            return `<a class="mobile-nav-sublink" href="${escapeHtml(c.Url)}" data-close-drawer>${escapeHtml(cLabel)}</a>`;
+            return `<a class="mobile-nav-sublink" href="${escapeHtml(navUrl(c.Url))}" data-close-drawer>${escapeHtml(cLabel)}</a>`;
           })
           .join('');
         return `

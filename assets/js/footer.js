@@ -6,6 +6,12 @@
 
 (function () {
   const { qs, escapeHtml, isValidEmail } = window.StockUtils;
+  const base = (typeof window.STOCK_BASE_PATH !== 'undefined') ? window.STOCK_BASE_PATH : '';
+  function navUrl(url) {
+    if (!url) return '#';
+    if (url.startsWith('http') || url.startsWith('/') || url.startsWith('#')) return url;
+    return base + url;
+  }
   let footerLinksData = [];
   let socialData = [];
 
@@ -16,7 +22,7 @@
       .sort((a, b) => a.Order - b.Order)
       .map((s) => {
         const icon = window.StockIcons.icon(s.Platform) || window.StockIcons.icon('link');
-        return `<a class="footer-social-link" href="${escapeHtml(s.Url)}" target="_blank" rel="noopener" aria-label="${escapeHtml(s.Platform)}">${icon}</a>`;
+        return `<a class="footer-social-link" href="${escapeHtml(navUrl(s.Url))}" target="_blank" rel="noopener" aria-label="${escapeHtml(s.Platform)}">${icon}</a>`;
       })
       .join('');
   }
@@ -38,7 +44,7 @@
           .sort((a, b) => a.Order - b.Order)
           .map((link) => {
             const label = lang === 'ar' ? link.LabelAR : link.LabelEN;
-            return `<a class="footer-link" href="${escapeHtml(link.Url)}">${escapeHtml(label)}</a>`;
+            return `<a class="footer-link" href="${escapeHtml(navUrl(link.Url))}">${escapeHtml(label)}</a>`;
           })
           .join('');
         return `
