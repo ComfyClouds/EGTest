@@ -235,7 +235,7 @@
         html += matchedNews
           .map((n) => {
             const title = lang === 'ar' ? n.TitleAR : n.TitleEN;
-            return `<a class="search-result-item" href="./#news" data-open-news-search="${escapeHtml(n.ID)}"><span>${escapeHtml(title)}</span></a>`;
+            return `<a class="search-result-item" href="/EGTest/#news" data-open-news-search="${escapeHtml(n.ID)}"><span>${escapeHtml(title)}</span></a>`;
           })
           .join('');
         html += `</div>`;
