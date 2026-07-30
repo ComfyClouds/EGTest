@@ -10,8 +10,17 @@
   const base = (typeof window.STOCK_BASE_PATH !== 'undefined') ? window.STOCK_BASE_PATH : '';
   function navUrl(url) {
     if (!url) return '#';
-    if (url.startsWith('http') || url.startsWith('/') || url.startsWith('#')) return url;
-    return base + url;
+    // If it's an external link or a pure hash fragment on the current page (e.g. #news), keep as is
+    if (url.startsWith('http')) return url;
+    
+    // Normalize root links '/' or empty '#' to the base path
+    if (url === '/' || url === '#') {
+      return base || '/';
+    }
+
+    // Strip leading slash if present so base path appends correctly
+    const cleanUrl = url.startsWith('/') ? url.slice(1) : url;
+    return base + cleanUrl;
   }
   let navData = [];
   let newsCache = [];
