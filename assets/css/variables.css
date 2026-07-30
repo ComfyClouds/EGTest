@@ -97,8 +97,20 @@
 
   /* ---------- Layout ---------- */
   --container-max: 1280px;
-  --header-height: 84px;
-  --header-height-scrolled: 68px;
+  --header-height: 108px;
+  --header-height-scrolled: 84px;
+  --utility-bar-height: 32px;
+
+  /* ---------- Header Redesign Tokens ----------
+     Scoped to header.css only — kept separate from the global
+     --color-* tokens above so the rest of the site is untouched. */
+  --header-container-max: 1440px;
+  --header-blue-deep: #123D6A;
+  --header-blue-mid: #1F5D99;
+  --header-blue-accent: #0F7AE5;
+  --header-text: #1D2939;
+  --header-text-muted: #667085;
+  --header-border: #E5E7EB;
 
   /* ---------- Z-Index Scale ---------- */
   --z-base: 0;

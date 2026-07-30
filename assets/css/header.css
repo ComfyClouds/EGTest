@@ -2,6 +2,65 @@
    Economic Group — Header / Navigation
    ========================================================= */
 
+/* ---------- Utility Bar ---------- */
+/* Thin strip above the main header: market status on one side, search
+   + language on the other. Not sticky — it scrolls away, leaving the
+   main header uncluttered once the page moves. */
+
+.utility-bar {
+  width: 100%;
+  height: var(--utility-bar-height);
+  background: #F8FAFC;
+  border-bottom: 1px solid var(--header-border);
+}
+
+.utility-bar-inner {
+  width: 100%;
+  max-width: var(--header-container-max);
+  height: 100%;
+  margin-inline: auto;
+  padding-inline: var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.utility-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.utility-bar .search-toggle {
+  width: 28px;
+  height: 28px;
+}
+
+.utility-bar .search-toggle svg {
+  width: 15px;
+  height: 15px;
+}
+
+.utility-bar .lang-switch {
+  padding: 2px;
+}
+
+.utility-bar .lang-option {
+  min-height: 22px;
+  padding: 2px var(--space-2);
+  font-size: 11px;
+}
+
+.utility-bar .market-pill {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--header-text-muted);
+}
+
+/* ---------- Main Header ---------- */
+
 .site-header {
   position: sticky;
   top: 0;
@@ -10,30 +69,36 @@
   height: var(--header-height);
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border-bottom: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
   transition: height var(--dur-base) var(--ease-out),
               border-color var(--dur-base) var(--ease-out),
-              box-shadow var(--dur-base) var(--ease-out);
+              box-shadow var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out);
 }
 
 .site-header.is-scrolled {
   height: var(--header-height-scrolled);
-  border-bottom-color: var(--color-border);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255, 255, 255, 0.78);
+  border-bottom-color: var(--header-border);
+  box-shadow: var(--shadow-md);
 }
 
 .header-inner {
   width: 100%;
-  max-width: var(--container-max);
+  max-width: var(--header-container-max);
   margin-inline: auto;
-  padding-inline: var(--space-5);
-  display: flex;
+  padding-inline: var(--space-8);
+  display: grid;
+  /* Two equal flexible side tracks keep the nav truly centered on the
+     page regardless of how wide the logo or the action cluster are —
+     not just centered in the leftover space between them. */
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-5);
+  column-gap: var(--space-5);
 }
 
 /* ---------- Logo ---------- */
@@ -41,10 +106,7 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-weight: var(--fw-extrabold);
-  font-size: var(--fs-lg);
-  color: var(--color-dark);
+  justify-self: start;
   flex-shrink: 0;
 }
 
@@ -56,17 +118,24 @@
 }
 
 .brand-mark img {
-  height: 44px;
-  width: auto;
+  width: clamp(190px, 15vw, 260px);
+  height: auto;
   display: block;
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.site-header.is-scrolled .brand-mark img {
+  width: clamp(170px, 13.5vw, 234px);
 }
 
 /* ---------- Primary Nav ---------- */
 
 .primary-nav {
+  grid-column: 2;
+  justify-self: center;
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-6);
 }
 
 .nav-item {
@@ -74,20 +143,46 @@
 }
 
 .nav-link {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-3) var(--space-3);
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-sm);
+  gap: 6px;
+  padding: var(--space-2) 2px;
+  font-family: var(--font-en);
+  font-size: 16px;
   font-weight: var(--fw-medium);
-  color: var(--color-text);
-  transition: color var(--dur-fast) var(--ease-out);
+  letter-spacing: 0.01em;
+  color: var(--header-text);
+  transition: color var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
 }
 
-.nav-link:hover,
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 2px;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--header-blue-accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.nav-link:hover {
+  color: var(--header-blue-deep);
+  transform: translateY(-2px);
+}
+
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
 .nav-link[aria-current="page"] {
-  color: var(--color-primary);
+  color: var(--header-blue-deep);
+  font-weight: var(--fw-semibold);
 }
 
 .nav-link .chevron {
@@ -135,15 +230,17 @@
 
 .nav-dropdown-link:hover {
   background: var(--color-primary-50);
-  color: var(--color-primary-dark);
+  color: var(--header-blue-deep);
 }
 
 /* ---------- Header Actions ---------- */
 
 .header-actions {
+  grid-column: 3;
+  justify-self: end;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   flex-shrink: 0;
 }
 
@@ -158,6 +255,68 @@
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
   color: var(--color-text-muted);
+}
+
+/* ---------- Premium CTA Buttons ---------- */
+
+.header-cta {
+  min-height: 44px;
+  padding-inline: var(--space-5);
+  font-size: 14px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.01em;
+}
+
+.header-cta-outline {
+  background: var(--color-white);
+  border: 1.5px solid var(--header-blue-accent);
+  color: var(--header-blue-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: background-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
+}
+
+.header-cta-outline:hover {
+  background: var(--color-primary-50);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-cta-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 0 0 rgba(18, 138, 94, 0.55);
+  animation: header-live-pulse 2.2s ease-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes header-live-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(18, 138, 94, 0.45); }
+  70%  { box-shadow: 0 0 0 6px rgba(18, 138, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(18, 138, 94, 0); }
+}
+
+.header-cta-primary {
+  background: linear-gradient(135deg, var(--header-blue-mid), var(--header-blue-accent));
+  color: var(--color-white);
+  box-shadow: 0 10px 24px rgba(15, 122, 229, 0.28);
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              filter var(--dur-base) var(--ease-out);
+}
+
+.header-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(15, 122, 229, 0.4);
+  filter: brightness(1.05);
+}
+
+.header-cta-primary:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .lang-switch {
@@ -356,6 +515,10 @@ html[dir="rtl"] .mobile-drawer.is-open {
   margin-bottom: var(--space-4);
 }
 
+.mobile-drawer-header .brand-mark img {
+  width: 120px;
+}
+
 .mobile-nav-link {
   display: flex;
   align-items: center;
@@ -387,15 +550,22 @@ html[dir="rtl"] .mobile-drawer.is-open {
 
 @media (max-width: 1023px) {
   .primary-nav,
-  .market-pill {
+  .utility-bar .market-pill {
     display: none;
   }
   .menu-toggle {
     display: inline-flex;
   }
+  .header-inner,
+  .utility-bar-inner {
+    padding-inline: var(--space-4);
+  }
+  .brand-mark img {
+    width: clamp(150px, 32vw, 200px);
+  }
   /* The mobile drawer already repeats the Open Account CTA, the live
      trading link, and the language switcher, so drop the header's copies
-     once the drawer takes over — keeps search + hamburger from getting
+     once the drawer takes over — keeps the hamburger from getting
      cramped against the logo on phones. */
   .header-actions > .btn-primary,
   .header-actions > .btn-outline {
@@ -404,7 +574,7 @@ html[dir="rtl"] .mobile-drawer.is-open {
 }
 
 @media (max-width: 560px) {
-  .header-actions > .lang-switch {
+  .utility-bar .lang-switch {
     display: none;
   }
 }

@@ -1,21 +1,13 @@
-<header class="site-header" id="site-header">
-  <div class="header-inner">
-    <a href="/EGTest/" class="brand" aria-label="Economic Group — Home">
-      <span class="brand-mark">
-        <img src="/EGTest/assets/images/brand/eg-logo-full.png" alt="Economic Group" width="119" height="44">
-      </span>
-    </a>
+<!-- Thin utility bar — market status + search + language, kept out of the
+     main header row so the logo and nav get full breathing room. -->
+<div class="utility-bar" id="utility-bar">
+  <div class="utility-bar-inner">
+    <div class="market-pill" id="market-pill">
+      <span class="status-dot" id="market-status-dot"></span>
+      <span id="market-status-label">—</span>
+    </div>
 
-    <nav class="primary-nav" id="primary-nav" aria-label="Primary">
-      <!-- Populated dynamically by header.js from the Navigation sheet -->
-    </nav>
-
-    <div class="header-actions">
-      <div class="market-pill" id="market-pill">
-        <span class="status-dot" id="market-status-dot"></span>
-        <span id="market-status-label">—</span>
-      </div>
-
+    <div class="utility-bar-actions">
       <button type="button" class="search-toggle" id="search-toggle" aria-label="Search" data-i18n-aria-label="header.search_placeholder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       </button>
@@ -24,10 +16,29 @@
         <button type="button" class="lang-option" data-lang-option="ar" aria-pressed="false">AR</button>
         <button type="button" class="lang-option" data-lang-option="en" aria-pressed="false">EN</button>
       </div>
+    </div>
+  </div>
+</div>
 
-      <a href="https://www.eg-broktrade.com/NewLogin.aspx?ReturnUrl=%2f" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer" data-i18n="nav.live_trading">Online Live Trading</a>
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/EGTest/" class="brand" aria-label="Economic Group — Home">
+      <span class="brand-mark">
+        <img src="/EGTest/assets/images/brand/eg-logo-full.png" alt="Economic Group" width="1794" height="662">
+      </span>
+    </a>
 
-      <a href="/EGTest/pages/signup/" class="btn btn-primary btn-sm" data-i18n="nav.open_account">Open Account</a>
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+      <!-- Populated dynamically by header.js from the Navigation sheet -->
+    </nav>
+
+    <div class="header-actions">
+      <a href="https://www.eg-broktrade.com/NewLogin.aspx?ReturnUrl=%2f" class="btn btn-outline btn-sm header-cta header-cta-outline" target="_blank" rel="noopener noreferrer" data-i18n="nav.live_trading">
+        <span class="header-cta-live-dot" aria-hidden="true"></span>
+        Online Live Trading
+      </a>
+
+      <a href="/EGTest/pages/signup/" class="btn btn-primary btn-sm header-cta header-cta-primary" data-i18n="nav.open_account">Open Account</a>
 
       <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>
