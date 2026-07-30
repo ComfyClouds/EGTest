@@ -22,6 +22,12 @@
   gap: var(--space-4);
 }
 
+/* Make logo visible on dark footer background */
+.footer-brand-col img {
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
 .footer-tagline {
   font-size: var(--fs-sm);
   color: #9AA1B0;
