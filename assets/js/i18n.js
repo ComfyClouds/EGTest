@@ -13,6 +13,14 @@
   const dictionaries = {};
   let currentLang = null;
   let basePath = '';
+  // Tracks the most recently *requested* language. Because loadDictionary()
+  // fetches asynchronously, two setLanguage() calls can resolve out of
+  // order (e.g. the initial boot-time default-language load is still in
+  // flight — competing with partials/sheets requests — when the user
+  // clicks a different language and that fetch finishes first). Without
+  // this guard, whichever fetch resolves LAST wins and silently reverts
+  // the UI, even though it wasn't the last language the user chose.
+  let requestedLang = null;
 
   function getInitialLang() {
     const stored = localStorage.getItem(window.STOCK_CONFIG.LANG_STORAGE_KEY);
@@ -97,7 +105,15 @@
   function setLanguage(lang) {
     if (!window.STOCK_CONFIG.SUPPORTED_LANGS.includes(lang)) return Promise.reject(new Error('Unsupported language: ' + lang));
 
+    requestedLang = lang;
+
     return loadDictionary(lang).then(() => {
+      // If setLanguage() has been called again with a different language
+      // since this fetch started, this response is stale — a newer request
+      // is either already applied or still in flight. Applying it now would
+      // silently revert the user's more recent choice, so bail out instead.
+      if (requestedLang !== lang) return;
+
       currentLang = lang;
       localStorage.setItem(window.STOCK_CONFIG.LANG_STORAGE_KEY, lang);
       applyDirection(lang);
