@@ -115,12 +115,24 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Clean up container framing */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .brand-mark img {
   width: clamp(190px, 15vw, 260px);
   height: auto;
   display: block;
+  /* Removes dark outer border box & gray background fill */
+  mix-blend-mode: multiply;
+  object-fit: contain;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   transition: width var(--dur-base) var(--ease-out);
 }
 
