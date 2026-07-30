@@ -53,7 +53,7 @@
   }
 
   function init() {
-    window.StockPageChrome.init('../').then(initNewsletterForm);
+    window.StockPageChrome.init('../../').then(initNewsletterForm);
   }
 
   if (document.readyState === 'loading') {

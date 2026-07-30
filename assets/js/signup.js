@@ -112,7 +112,7 @@
   }
 
   function init() {
-    window.StockPageChrome.init('../').then(initForm);
+    window.StockPageChrome.init('../../').then(initForm);
   }
 
   if (document.readyState === 'loading') {
