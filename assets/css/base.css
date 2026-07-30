@@ -127,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
 [data-surface="dark"] h2,
 [data-surface="dark"] h3,
 [data-surface="dark"] h4 {
-  color: var(--color-white);
+  color: #C1F1FF;
 }
 
 h1 { font-size: var(--fs-4xl); letter-spacing: -0.02em; }
