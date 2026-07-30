@@ -27,7 +27,7 @@
   mix-blend-mode: screen;
   
   /* Makes the dark blue logo lines bright white */
-  filter: brightness(10) contrast(2);
+  filter: brightness(1) contrast(4);
   
   display: block;
 }
