@@ -127,12 +127,15 @@
   width: clamp(190px, 15vw, 260px);
   height: auto;
   display: block;
-  /* Removes dark outer border box & gray background fill */
-  mix-blend-mode: multiply;
   object-fit: contain;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
+  
+  /* Crop out the outer dark edges/padding of the image file */
+  clip-path: inset(12% 2% 8% 2%); 
+  
+  /* Brighten and boost contrast to turn the light gray card white so multiply hides it */
+  filter: contrast(1.15) brightness(1.08);
+  mix-blend-mode: multiply;
+  
   transition: width var(--dur-base) var(--ease-out);
 }
 
