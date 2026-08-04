@@ -320,6 +320,8 @@
       const lang = window.I18n.getLanguage() || window.STOCK_CONFIG.DEFAULT_LANG;
       renderNav(lang);
       renderMarketStatus(data.MarketStatus, lang);
+      window.TradingViewWidgets.renderTickerTape('tv-ticker-tape', lang);
+      
     });
   }
 
