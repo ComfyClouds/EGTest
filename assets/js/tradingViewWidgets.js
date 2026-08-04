@@ -191,7 +191,7 @@
         ],
         showSymbolLogo: true,
         isTransparent: false,
-        displayMode: 'adaptive',
+        width: '100%',
         colorTheme: 'light',
         locale: tvLocale(lang)
       },
