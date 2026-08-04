@@ -244,12 +244,20 @@
 }
 
 /* Exception to the sitewide prefers-reduced-motion reset in base.css:
-   this marquee is treated as decorative/informational content rather than
-   motion that could trigger discomfort, so it keeps scrolling. Hover-to-pause
-   above still applies either way. */
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track {
-    animation-duration: 38s !important;
-    animation-iteration-count: infinite !important;
-  }
+   this marquee is informational content (live announcements), not decorative
+   motion. It must keep scrolling regardless of the user's motion preference.
+   Hover-to-pause still applies either way.
+   All five animation properties are forced here because base.css uses
+   !important on duration and iteration-count inside the reduced-motion
+   media query — this unconditional rule wins by source order and specificity. */
+.ticker-track {
+  animation-name: tickerScroll !important;
+  animation-duration: 38s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  animation-play-state: running !important;
+}
+
+[dir="rtl"] .ticker-track {
+  animation-name: tickerScrollRTL !important;
 }
