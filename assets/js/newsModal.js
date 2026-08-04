@@ -17,8 +17,11 @@
     const lang = window.I18n.getLanguage();
     lastFocusedEl = document.activeElement;
 
-    qs('#news-modal-image').src = newsItem.Image;
-    qs('#news-modal-image').alt = lang === 'ar' ? newsItem.TitleAR : newsItem.TitleEN;
+    const modalImg = qs('#news-modal-image');
+    if (modalImg) {
+      modalImg.src = newsItem.Image;
+      modalImg.alt = lang === 'ar' ? newsItem.TitleAR : newsItem.TitleEN;
+    }
     qs('#news-modal-category').textContent = lang === 'ar' ? newsItem.CategoryAR : newsItem.CategoryEN;
     qs('#news-modal-date').textContent = formatDate(newsItem.Date, lang);
     qs('#news-modal-date').setAttribute('datetime', newsItem.Date);
