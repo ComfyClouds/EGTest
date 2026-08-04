@@ -33,12 +33,24 @@
 }
 
 .account-card {
+  position: relative;
   width: 100%;
   max-width: 560px;
   background: var(--color-white);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   padding: var(--space-7);
+  overflow: hidden;
+}
+
+/* Signature accent — a thin brand-gradient rule along the top edge */
+.account-card::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-dark) 0%, var(--color-primary) 55%, var(--color-primary-light) 100%);
 }
 
 .account-card-header {
@@ -61,7 +73,158 @@
 .account-form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
+}
+
+/* ---------- Fields ---------- */
+
+.account-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.account-form .form-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.account-form .form-label .required {
+  color: var(--color-primary);
+  margin-inline-start: 2px;
+}
+
+.account-form .form-input,
+.account-form .form-textarea {
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  padding-inline-start: 46px;
+  font-size: var(--fs-base);
+  min-height: 52px;
+  background-color: #F8FAFC;
+  background-repeat: no-repeat;
+  background-size: 19px 19px;
+  background-position: 16px center;
+  color: var(--color-text);
+  width: 100%;
+  transition: border-color var(--dur-base) var(--ease-out),
+              background-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+
+html[dir="rtl"] .account-form .form-input,
+html[dir="rtl"] .account-form .form-textarea {
+  background-position: right 16px center;
+}
+
+.account-form .form-textarea {
+  min-height: 104px;
+  padding-top: 14px;
+  background-position-y: 16px;
+  resize: vertical;
+}
+
+.account-form .form-input::placeholder,
+.account-form .form-textarea::placeholder {
+  color: #A7B1BE;
+}
+
+.account-form .form-input:hover,
+.account-form .form-textarea:hover {
+  border-color: #C7D1DD;
+}
+
+.account-form .form-input:focus,
+.account-form .form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-focus);
+}
+
+.account-form .form-input.has-error,
+.account-form .form-textarea.has-error {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger-bg);
+}
+
+#signup-name {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B6B7C' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+}
+
+#signup-email {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B6B7C' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 6l-10 7L2 6'/%3E%3Crect x='2' y='4' width='20' height='16' rx='2'/%3E%3C/svg%3E");
+}
+
+#signup-phone {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B6B7C' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.81.3 1.6.54 2.37a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.71-1.11a2 2 0 0 1 2.11-.45c.77.24 1.56.42 2.37.54A2 2 0 0 1 22 16.92z'/%3E%3C/svg%3E");
+}
+
+#signup-address {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B6B7C' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+}
+
+/* ---------- Error messages ---------- */
+
+.account-form .form-error-msg {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-danger);
+}
+
+.account-form .form-error-msg.is-visible {
+  display: flex;
+  animation: fadeUp var(--dur-base) var(--ease-out);
+}
+
+.account-form .form-error-msg.is-visible::before {
+  content: '';
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-danger);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ---------- Submit row ---------- */
+
+.account-form .form-submit-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.account-form .form-submit-row .btn {
+  width: 100%;
+  min-height: 54px;
+  font-size: var(--fs-base);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-white);
+  box-shadow: var(--shadow-primary);
+}
+
+.account-form .form-submit-row .btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+}
+
+.account-form .form-submit-row .btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.account-form .form-status {
+  text-align: center;
+  font-size: var(--fs-sm);
 }
 
 .account-footer {
