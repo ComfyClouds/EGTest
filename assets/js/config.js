@@ -10,7 +10,7 @@ window.STOCK_CONFIG = Object.freeze({
 
   // When true, falls back to /data/sample-data.json instead of calling
   // the live Apps Script endpoint. Useful for local development/demo.
-  USE_SAMPLE_DATA: true,
+  USE_SAMPLE_DATA: false,
 
   SAMPLE_DATA_URL: 'data/sample-data.json',
 
