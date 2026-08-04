@@ -3,8 +3,7 @@
  * Renders: Market Overview (EGX 30/70/100), Top Gainers & Losers, and the
  * full Stocks list — all via official TradingView widgets (see
  * tradingViewWidgets.js), since that's the only legitimate source of real
- * EGX-specific data. The Currencies/Commodities ticker tabs remain our own
- * custom UI, but are now fully live-fetched (see liveMarketData.js).
+ * EGX-specific data.
  *
  * Bilingual / Arabic-first:
  *   The DEFAULT_LANG is 'ar', so all TradingView widgets render with
@@ -18,12 +17,9 @@
  */
 
 (function () {
-  const { qs, qsa } = window.StockUtils;
+  const { qs } = window.StockUtils;
 
-  let currenciesData = [];
-  let commoditiesData = [];
-  let activeTickerTab = 'currencies';
-  let dataLoaded = { overview: false, tickers: false, movers: false, stocks: false };
+  let dataLoaded = { overview: false, movers: false, stocks: false };
 
   /* ---------- Market Overview (TradingView) ---------- */
 
@@ -31,64 +27,6 @@
     if (dataLoaded.overview) return;
     dataLoaded.overview = true;
     window.TradingViewWidgets.renderIndices('tv-indices-widget', window.I18n.getLanguage());
-  }
-
-  /* ---------- Ticker Tabs (Currencies / Commodities — still custom UI) ---------- */
-
-  function renderTickerTab(lang) {
-    const grid = qs('#ticker-grid');
-    if (!grid) return;
-    window.StockSkeleton.clearBusy(grid);
-
-    const dataMap = { currencies: currenciesData, commodities: commoditiesData };
-    const rows = dataMap[activeTickerTab] || [];
-    grid.innerHTML = rows.map((item) => window.StockComponents.miniTickerCard(item, lang, activeTickerTab)).join('');
-    window.StockLazy.initRevealObserver();
-  }
-
-  function initTickerTabs() {
-    const tabs = qsa('[data-ticker-tab]');
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        tabs.forEach((t) => t.setAttribute('aria-selected', 'false'));
-        tab.setAttribute('aria-selected', 'true');
-        activeTickerTab = tab.getAttribute('data-ticker-tab');
-        renderTickerTab(window.I18n.getLanguage());
-      });
-    });
-  }
-
-  function loadTickers() {
-    if (dataLoaded.tickers) return;
-    dataLoaded.tickers = true;
-    const grid = qs('#ticker-grid');
-    window.StockSkeleton.renderSkeletonCards(grid, 4, 'row');
-
-    Promise.all([
-      window.LiveMarketData.fetchCurrencies(),
-      window.LiveMarketData.fetchMetals()
-    ]).then(([liveCurrencies, liveMetals]) => {
-      currenciesData = liveCurrencies;
-      commoditiesData = [...liveMetals].sort((a, b) => a.Order - b.Order);
-      renderTickerTab(window.I18n.getLanguage());
-    });
-  }
-
-  /**
-   * Re-fetches and re-renders only the ticker tabs.
-   */
-  function refreshTickers() {
-    if (!dataLoaded.tickers) return;
-    const lang = window.I18n.getLanguage();
-
-    Promise.all([
-      window.LiveMarketData.fetchCurrencies(),
-      window.LiveMarketData.fetchMetals()
-    ]).then(([liveCurrencies, liveMetals]) => {
-      currenciesData = liveCurrencies;
-      commoditiesData = [...liveMetals].sort((a, b) => a.Order - b.Order);
-      renderTickerTab(lang);
-    });
   }
 
   /* ---------- Top Gainers / Losers (TradingView) ---------- */
@@ -112,8 +50,6 @@
   function onLangChange(lang) {
     // TradingView widgets are iframes — they cannot be updated in-place.
     // We must destroy and rebuild each visible widget with the new locale.
-    // Reset the dataLoaded flags only for TV widgets so they get rebuilt;
-    // keep tickers flag so we don't re-fetch from Frankfurter unnecessarily.
 
     if (dataLoaded.overview) {
       dataLoaded.overview = false;
@@ -127,10 +63,6 @@
       dataLoaded.stocks = false;
       loadStocksTable();
     }
-    // Custom ticker cards just need a re-render with the new lang
-    if (dataLoaded.tickers) {
-      renderTickerTab(lang);
-    }
   }
 
   /* ---------- refresh no-op (kept for autoRefresh.js compatibility) ---------- */
@@ -142,8 +74,6 @@
   /* ---------- Init ---------- */
 
   function init() {
-    initTickerTabs();
-
     document.addEventListener('stock:langchange', (e) => {
       onLangChange(e.detail.lang);
     });
@@ -152,13 +82,10 @@
     const moversSection   = qs('#movers');
     const stocksSection   = qs('#stocks');
 
-    window.StockLazy.onEnterViewport(overviewSection, () => {
-      loadOverview();
-      loadTickers();
-    });
+    window.StockLazy.onEnterViewport(overviewSection, loadOverview);
     window.StockLazy.onEnterViewport(moversSection, loadMovers);
     window.StockLazy.onEnterViewport(stocksSection, loadStocksTable);
   }
 
-  window.StockMarket = { init, refresh, refreshTickers };
+  window.StockMarket = { init, refresh };
 })();
