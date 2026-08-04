@@ -457,25 +457,25 @@
   const T = {
     ar: {
       headerName:      'مساعد السوق الذكي',
-      headerStatus:    'متصل — بدون API',
+      headerStatus:    'متصل',
       placeholder:     'اسأل عن سهم… مثل: TMGH أو CIB أو «التداول الإلكتروني المباشر»',
       sendLabel:       'إرسال',
       closeLabel:      'إغلاق المحادثة',
       disclaimer:      'معلومات تعريفية فقط — ليست توصية استثمارية.',
       welcome:         'أهلاً! أنا مساعد السوق من Economic Group 🇪🇬\n\nيمكنك السؤال عن:\n• أي سهم بالرمز أو الاسم مثل «TMGH» أو «CIB» أو «السويدي إليكتريك»\n• مقارنة سهمين مثل «قارن PHDC و SODIC»\n• أسهم قطاع كامل مثل «أسهم البنوك»\n• مؤشرات EGX30 أو EGX70\n• ساعات التداول والأسئلة العامة\n• التداول الإلكتروني المباشر',
       chips:           ['ساعات التداول','أسهم البنوك','TMGH','COMI','EGX30','التداول الإلكتروني المباشر'],
-      poweredBy:       'يعمل محلياً — بدون API بالكامل',
+      poweredBy:       'يعمل محليا بواسطة المجموعة الأقتصادية',
     },
     en: {
       headerName:      'AI Market Assistant',
-      headerStatus:    'Online — No API',
+      headerStatus:    'Online',
       placeholder:     'Ask about a stock… e.g. TMGH, CIB or "Online Live Trading"',
       sendLabel:       'Send',
       closeLabel:      'Close chat',
       disclaimer:      'Educational info only — not investment advice.',
       welcome:         'Hello! I\'m the EGX Market Assistant from Economic Group 🇪🇬\n\nYou can ask about:\n• Any stock by ticker or name, e.g. "TMGH", "CIB", or "Elsewedy Electric"\n• Comparing two stocks, e.g. "Compare PHDC and SODIC"\n• A full sector list, e.g. "Banking sector stocks"\n• Indices: EGX30, EGX70, EGX100\n• Trading hours, daily limits, dividends\n• Online Live Trading',
       chips:           ['Trading hours','Banking stocks','TMGH','COMI','EGX30','Online Live Trading'],
-      poweredBy:       'Runs locally — 100% free, no API',
+      poweredBy:       'Runs locally by Economic Group',
     },
   };
 
