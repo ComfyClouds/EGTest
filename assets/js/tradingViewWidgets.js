@@ -169,35 +169,36 @@
   /**
    * Ticker Tape widget — scrolling strip under the header.
    */
-  renderTickerTape: function (containerId, lang) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  
-  container.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
-  
-  const script = document.createElement('script');
-  script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
-  script.async = true;
-  script.type = 'text/javascript';
-  script.innerHTML = JSON.stringify({
-    "symbols": [
-      { "description": "EGX 30", "proName": "EGX:EGX30" },
-      { "description": "COMI", "proName": "EGX:COMI" },
-      { "description": "TMGH", "proName": "EGX:TMGH" },
-      { "description": "HRHO", "proName": "EGX:HRHO" },
-      { "description": "SWDY", "proName": "EGX:SWDY" }
-    ],
-    "showSymbolLogo": true,
-    "colorTheme": "light",
-    "isTransparent": false,
-    "displayMode": "adaptive",
-    "locale": lang === 'ar' ? 'ar_AE' : 'en',
-    "width": "100%",
-    "height": 66
-  });
+  function renderTickerTape(containerId, lang) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    clearContainer(container);
 
-  container.querySelector('.tradingview-widget-container').appendChild(script);
-}
+    const widget = buildWidget(
+      'ticker-tape',
+      {
+        symbols: [
+          { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
+          { proName: 'EGX:COMI', description: 'COMI — البنك التجاري الدولي' },
+          { proName: 'EGX:TMGH', description: 'TMGH — طلعت مصطفى' },
+          { proName: 'EGX:HRHO', description: 'HRHO — المجموعة المالية هيرميس' },
+          { proName: 'EGX:SWDY', description: 'SWDY — السويدي إليكتريك' },
+          { proName: 'EGX:ETEL', description: 'ETEL — المصرية للاتصالات' },
+          { proName: 'EGX:ORAS', description: 'ORAS — أوراسكوم للإنشاءات' },
+          { proName: 'EGX:EAST', description: 'EAST — الشرقية للدخان' },
+          { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
+          { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
+        ],
+        showSymbolLogo: true,
+        isTransparent: false,
+        displayMode: 'adaptive',
+        colorTheme: 'light',
+        locale: tvLocale(lang)
+      },
+      'Stock Market Ticker by TradingView'
+    );
+    container.appendChild(widget);
+  }
 
   /**
    * Symbol Overview widget for the hero panel.
