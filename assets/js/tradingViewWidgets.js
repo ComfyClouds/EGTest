@@ -38,10 +38,18 @@
   /**
    * Builds the exact DOM structure TradingView's embed scripts expect:
    * a wrapper div, an empty "widget" div they inject their iframe into,
-   * a copyright line (required by their terms), and a <script> tag whose
-   * text content is the JSON config. Built with real DOM APIs (not
-   * innerHTML) because injected <script> tags via innerHTML never execute —
-   * the browser only runs scripts inserted through the DOM API.
+   * a copyright line (required by their terms), an inline <script> tag
+   * containing the JSON config, and then the external loader <script>.
+   *
+   * CRITICAL: The config MUST be in a separate inline <script> that is a
+   * sibling of the external loader, NOT set as textContent on the same
+   * element that has a src. Per the HTML spec, browsers silently ignore
+   * inline content on external scripts (src + textContent on one element),
+   * so TradingView's loader finds no config and renders a static/empty widget.
+   *
+   * Built with real DOM APIs (not innerHTML) because injected <script> tags
+   * via innerHTML never execute — the browser only runs scripts inserted
+   * through the DOM API.
    */
   function buildWidget(widgetName, config, copyrightLabel) {
     const wrapper = document.createElement('div');
@@ -64,12 +72,19 @@
     copyrightDiv.appendChild(link);
     wrapper.appendChild(copyrightDiv);
 
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = `${SCRIPT_BASE}/embed-widget-${widgetName}.js`;
-    script.async = true;
-    script.textContent = JSON.stringify(config);
-    wrapper.appendChild(script);
+    // Inline config script — must be a sibling BEFORE the loader script.
+    // TradingView's loader walks previousSibling to find this JSON block.
+    const configScript = document.createElement('script');
+    configScript.type = 'text/javascript';
+    configScript.textContent = JSON.stringify(config);
+    wrapper.appendChild(configScript);
+
+    // External loader script — src only, no inline content.
+    const loaderScript = document.createElement('script');
+    loaderScript.type = 'text/javascript';
+    loaderScript.src = `${SCRIPT_BASE}/embed-widget-${widgetName}.js`;
+    loaderScript.async = true;
+    wrapper.appendChild(loaderScript);
 
     return wrapper;
   }
