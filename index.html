@@ -117,7 +117,17 @@
           <p class="section-subtitle" data-i18n="sections.news_subtitle">Stay ahead with market-moving news and analysis.</p>
         </div>
 
-        <div class="news-grid" id="news-grid" aria-live="polite"></div>
+        <div class="news-carousel">
+          <button type="button" class="news-carousel-btn news-carousel-btn--prev" id="news-prev" aria-label="Previous news">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <div class="news-carousel-track-wrap">
+            <div class="news-grid" id="news-grid" aria-live="polite"></div>
+          </div>
+          <button type="button" class="news-carousel-btn news-carousel-btn--next" id="news-next" aria-label="Next news">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
       </div>
     </section>
 
