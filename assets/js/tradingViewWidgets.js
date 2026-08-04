@@ -192,7 +192,7 @@
     clearContainer(container);
 
     const widget = buildWidget(
-      'ticker-tape',
+      'tickers',
       {
         symbols: [
           { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
@@ -206,10 +206,9 @@
           { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
           { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
         ],
-        showSymbolLogo: true,
-        isTransparent: false,
-        displayMode: 'regular',
         colorTheme: 'light',
+        isTransparent: false,
+        showSymbolLogo: true,
         locale: tvLocale(lang)
       },
       'Stock Market Ticker by TradingView'
