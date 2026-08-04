@@ -19,9 +19,10 @@ html {
   html {
     scroll-behavior: auto;
   }
-  *,
-  *::before,
-  *::after {
+  
+  /* Apply animation resets to everything EXCEPT the TradingView ticker wrapper */
+  :not(.tradingview-widget-container),
+  :not(.tradingview-widget-container) * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
