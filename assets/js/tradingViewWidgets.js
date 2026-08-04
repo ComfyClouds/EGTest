@@ -13,9 +13,9 @@
  * branded UI, not our custom design system.
  *
  * Widgets used (all free, no API key, official TradingView embed scripts):
- *  - Market Overview  → EGX 30 / EGX 70 / EGX 100
- *  - Hotlists         → Top Gainers / Losers / Most Active for EGX
- *  - Screener         → full searchable/sortable EGX company list
+ *   - Market Overview  → EGX 30 / EGX 70 / EGX 100
+ *   - Hotlists          → Top Gainers / Losers / Most Active for EGX
+ *   - Screener          → full searchable/sortable EGX company list
  *
  * Symbols were verified directly against TradingView's own symbol pages
  * before use — note EGX 70 and EGX 100 use the "EWI" (Equal-Weight Index)
@@ -68,7 +68,7 @@
     script.type = 'text/javascript';
     script.src = `${SCRIPT_BASE}/embed-widget-${widgetName}.js`;
     script.async = true;
-    script.textContent = JSON.stringify(config);
+    script.text = JSON.stringify(config);
     wrapper.appendChild(script);
 
     return wrapper;
@@ -115,9 +115,7 @@
 
   /**
    * Hotlists widget, scoped to the EGX exchange. Shows Top Gainers / Top
-   * Losers / Most Active as tabs within one widget — replaces the previous
-   * two-panel custom layout, since the widget already handles that split
-   * internally.
+   * Losers / Most Active as tabs within one widget.
    */
   function renderMovers(containerId, lang) {
     const container = document.getElementById(containerId);
@@ -144,8 +142,7 @@
   }
 
   /**
-   * Screener widget, scoped to the Egypt market. Has its own built-in
-   * search/sort/filter toolbar, so no custom search box is needed here.
+   * Screener widget, scoped to the Egypt market.
    */
   function renderStocks(containerId, lang) {
     const container = document.getElementById(containerId);
@@ -170,57 +167,41 @@
   }
 
   /**
-   * Ticker Tape widget — the scrolling strip shown directly under the site
-   * header. Uses TradingView's official "ticker-tape" embed (a different
-   * script than the three widgets above), configured with a fixed list of
-   * EGX-listed symbols. Each symbol's "description" field is set to a
-   * bilingual label ("TMGH — طلعت مصطفى") so the ticker reads correctly for
-   * both Arabic and English visitors regardless of which language the rest
-   * of the site is currently in — only TradingView's own chrome (direction
-   * of the widget's internal text) follows the `locale` param.
-   *
-   * Symbols verified directly against TradingView's own symbol pages
-   * (same standard as the other widgets in this file) rather than guessed:
-   * EGX 30, COMI (CIB), TMGH (Talaat Moustafa), HRHO (EFG Hermes/EFG
-   * Holding), SWDY (Elsewedy Electric), ETEL (Telecom Egypt), ORAS
-   * (Orascom Construction), EAST (Eastern Company), ABUK (Abou Kir
-   * Fertilizers), EFIH (e-finance).
+   * Ticker Tape widget — scrolling strip under the header.
    */
- // Change 'ticker-tape' to 'tickers' inside buildWidget call
-const widget = buildWidget(
-  'tickers',
-  {
-    symbols: [
-      { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
-      { proName: 'EGX:COMI', description: 'COMI — البنك التجاري الدولي' },
-      { proName: 'EGX:TMGH', description: 'TMGH — طلعت مصطفى' },
-      { proName: 'EGX:HRHO', description: 'HRHO — المجموعة المالية هيرميس' },
-      { proName: 'EGX:SWDY', description: 'SWDY — السويدي إليكتريك' },
-      { proName: 'EGX:ETEL', description: 'ETEL — المصرية للاتصالات' },
-      { proName: 'EGX:ORAS', description: 'ORAS — أوراسكوم للإنشاءات' },
-      { proName: 'EGX:EAST', description: 'EAST — الشرقية للدخان' },
-      { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
-      { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
-    ],
-    colorTheme: 'light',
-    isTransparent: false,
-    showSymbolLogo: true,
-    locale: tvLocale(lang)
-  },
-  'Stock Market Ticker by TradingView'
-);
+  function renderTickerTape(containerId, lang) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    clearContainer(container);
+
+    const widget = buildWidget(
+      'ticker-tape',
+      {
+        symbols: [
+          { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
+          { proName: 'EGX:COMI', description: 'COMI — البنك التجاري الدولي' },
+          { proName: 'EGX:TMGH', description: 'TMGH — طلعت مصطفى' },
+          { proName: 'EGX:HRHO', description: 'HRHO — المجموعة المالية هيرميس' },
+          { proName: 'EGX:SWDY', description: 'SWDY — السويدي إليكتريك' },
+          { proName: 'EGX:ETEL', description: 'ETEL — المصرية للاتصالات' },
+          { proName: 'EGX:ORAS', description: 'ORAS — أوراسكوم للإنشاءات' },
+          { proName: 'EGX:EAST', description: 'EAST — الشرقية للدخان' },
+          { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
+          { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
+        ],
+        showSymbolLogo: true,
+        isTransparent: false,
+        displayMode: 'adaptive',
+        colorTheme: 'light',
+        locale: tvLocale(lang)
+      },
+      'Stock Market Ticker by TradingView'
+    );
+    container.appendChild(widget);
+  }
+
   /**
-   * Symbol Overview widget for the hero's small "Live Snapshot" panel —
-   * replaces the previous custom-rendered index value + top-movers list,
-   * which read from the Markets/Stocks Google Sheets. Shows EGX 30 plus a
-   * handful of major EGX constituents (same verified symbols used in
-   * renderTickerTape below) as compact mini-charts with live price/change.
-   * Configured dark + transparent to sit inside the existing dark-glass
-   * hero panel instead of looking like a dropped-in white rectangle.
-   * Note: unlike the indices/movers/screener widgets above, this specific
-   * widget's config keys weren't independently re-verified against a live
-   * page for this project — confirm it renders as expected once deployed,
-   * and adjust if TradingView's current Symbol Overview format differs.
+   * Symbol Overview widget for the hero panel.
    */
   function renderHeroSnapshot(containerId, lang) {
     const container = document.getElementById(containerId);
