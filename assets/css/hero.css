@@ -193,12 +193,12 @@
 .ticker-track {
   display: flex;
   width: max-content;
-  animation: tickerScroll 38s linear infinite;
   padding-block: var(--space-3);
+  will-change: transform;
 }
 
 .ticker-bar:hover .ticker-track {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 
 .ticker-item {
@@ -217,23 +217,19 @@
 
 @keyframes tickerScroll {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
-}
-
-[dir="rtl"] .ticker-track {
-  animation-name: tickerScrollRTL;
 }
 
 @keyframes tickerScrollRTL {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(50%);
+    transform: translate3d(50%, 0, 0);
   }
 }
 
@@ -243,21 +239,15 @@
   }
 }
 
-/* Exception to the sitewide prefers-reduced-motion reset in base.css:
-   this marquee is informational content (live announcements), not decorative
-   motion. It must keep scrolling regardless of the user's motion preference.
-   Hover-to-pause still applies either way.
-   All five animation properties are forced here because base.css uses
-   !important on duration and iteration-count inside the reduced-motion
-   media query — this unconditional rule wins by source order and specificity. */
+/* Override base.css prefers-reduced-motion while allowing hover pause */
 .ticker-track {
   animation-name: tickerScroll !important;
   animation-duration: 38s !important;
   animation-timing-function: linear !important;
   animation-iteration-count: infinite !important;
-  animation-play-state: running !important;
 }
 
-[dir="rtl"] .ticker-track {
+[dir="rtl"] .ticker-track,
+html[lang="ar"] .ticker-track {
   animation-name: tickerScrollRTL !important;
 }
