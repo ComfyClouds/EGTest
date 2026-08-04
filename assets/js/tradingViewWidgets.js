@@ -186,35 +186,29 @@
    * (Orascom Construction), EAST (Eastern Company), ABUK (Abou Kir
    * Fertilizers), EFIH (e-finance).
    */
- function renderTickerTape(containerId, lang) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    clearContainer(container);
-
-    const widget = buildWidget(
-      'tickers',
-      {
-        symbols: [
-          { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
-          { proName: 'EGX:COMI', description: 'COMI — البنك التجاري الدولي' },
-          { proName: 'EGX:TMGH', description: 'TMGH — طلعت مصطفى' },
-          { proName: 'EGX:HRHO', description: 'HRHO — المجموعة المالية هيرميس' },
-          { proName: 'EGX:SWDY', description: 'SWDY — السويدي إليكتريك' },
-          { proName: 'EGX:ETEL', description: 'ETEL — المصرية للاتصالات' },
-          { proName: 'EGX:ORAS', description: 'ORAS — أوراسكوم للإنشاءات' },
-          { proName: 'EGX:EAST', description: 'EAST — الشرقية للدخان' },
-          { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
-          { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
-        ],
-        colorTheme: 'light',
-        isTransparent: false,
-        showSymbolLogo: true,
-        locale: tvLocale(lang)
-      },
-      'Stock Market Ticker by TradingView'
-    );
-    container.appendChild(widget);
-  }
+ // Change 'ticker-tape' to 'tickers' inside buildWidget call
+const widget = buildWidget(
+  'tickers',
+  {
+    symbols: [
+      { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
+      { proName: 'EGX:COMI', description: 'COMI — البنك التجاري الدولي' },
+      { proName: 'EGX:TMGH', description: 'TMGH — طلعت مصطفى' },
+      { proName: 'EGX:HRHO', description: 'HRHO — المجموعة المالية هيرميس' },
+      { proName: 'EGX:SWDY', description: 'SWDY — السويدي إليكتريك' },
+      { proName: 'EGX:ETEL', description: 'ETEL — المصرية للاتصالات' },
+      { proName: 'EGX:ORAS', description: 'ORAS — أوراسكوم للإنشاءات' },
+      { proName: 'EGX:EAST', description: 'EAST — الشرقية للدخان' },
+      { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
+      { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
+    ],
+    colorTheme: 'light',
+    isTransparent: false,
+    showSymbolLogo: true,
+    locale: tvLocale(lang)
+  },
+  'Stock Market Ticker by TradingView'
+);
   /**
    * Symbol Overview widget for the hero's small "Live Snapshot" panel —
    * replaces the previous custom-rendered index value + top-movers list,
