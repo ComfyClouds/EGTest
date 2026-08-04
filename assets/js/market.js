@@ -4,12 +4,16 @@
  * full Stocks list — all via official TradingView widgets (see
  * tradingViewWidgets.js), since that's the only legitimate source of real
  * EGX-specific data. The Currencies/Commodities ticker tabs remain our own
- * custom UI, but are now fully live-fetched (see liveMarketData.js) —
- * Currencies and Commodities (Gold/Silver only) both come straight from
- * Frankfurter with no Google Sheet involved. Oil/Natural Gas rows were
- * dropped from the Commodities tab since Frankfurter has no data for them
- * and there's no other free, CORS-enabled, keyless source to replace the
- * old sheet with.
+ * custom UI, but are now fully live-fetched (see liveMarketData.js).
+ *
+ * Bilingual / Arabic-first:
+ *   The DEFAULT_LANG is 'ar', so all TradingView widgets render with
+ *   locale:'ar' on first load — TradingView's own UI labels (column
+ *   headers, tooltips, nav tabs) appear in Arabic. When the user switches
+ *   language via the header AR/EN toggle, the `stock:langchange` event
+ *   fires and every visible widget is destroyed and rebuilt with the new
+ *   locale, giving a seamless bilingual experience.
+ *
  * Data fetches are deferred until each section scrolls into view.
  */
 
@@ -64,18 +68,14 @@
       window.LiveMarketData.fetchCurrencies(),
       window.LiveMarketData.fetchMetals()
     ]).then(([liveCurrencies, liveMetals]) => {
-      currenciesData = liveCurrencies; // fully live — no Google Sheet involved
-      commoditiesData = [...liveMetals].sort((a, b) => a.Order - b.Order); // fully live — Gold/Silver only
+      currenciesData = liveCurrencies;
+      commoditiesData = [...liveMetals].sort((a, b) => a.Order - b.Order);
       renderTickerTab(window.I18n.getLanguage());
     });
   }
 
   /**
-   * Re-fetches and re-renders only the ticker tabs, if already loaded. Kept
-   * on its own, slower cadence (see autoRefresh.js) since Frankfurter's
-   * underlying rates only update once a day — polling it every 30 seconds
-   * like the rest of the page would be pointless and inconsiderate of a
-   * free public API.
+   * Re-fetches and re-renders only the ticker tabs.
    */
   function refreshTickers() {
     if (!dataLoaded.tickers) return;
@@ -107,31 +107,50 @@
     window.TradingViewWidgets.renderStocks('tv-stocks-widget', window.I18n.getLanguage());
   }
 
-  /* ---------- Init ---------- */
+  /* ---------- Language Change — rebuild all visible TradingView widgets ---------- */
 
-  /**
-   * Re-fetches and re-renders the Sheet-backed ticker tabs only — Market
-   * Overview/Movers/Stocks are TradingView widgets now, which fetch and
-   * refresh their own data internally and need no action from us here.
-   */
+  function onLangChange(lang) {
+    // TradingView widgets are iframes — they cannot be updated in-place.
+    // We must destroy and rebuild each visible widget with the new locale.
+    // Reset the dataLoaded flags only for TV widgets so they get rebuilt;
+    // keep tickers flag so we don't re-fetch from Frankfurter unnecessarily.
+
+    if (dataLoaded.overview) {
+      dataLoaded.overview = false;
+      loadOverview();
+    }
+    if (dataLoaded.movers) {
+      dataLoaded.movers = false;
+      loadMovers();
+    }
+    if (dataLoaded.stocks) {
+      dataLoaded.stocks = false;
+      loadStocksTable();
+    }
+    // Custom ticker cards just need a re-render with the new lang
+    if (dataLoaded.tickers) {
+      renderTickerTab(lang);
+    }
+  }
+
+  /* ---------- refresh no-op (kept for autoRefresh.js compatibility) ---------- */
+
   function refresh() {
     // Intentionally empty: nothing Sheet-backed left on the fast cycle.
-    // Kept as a stable no-op so autoRefresh.js doesn't need to know that.
   }
+
+  /* ---------- Init ---------- */
 
   function init() {
     initTickerTabs();
 
     document.addEventListener('stock:langchange', (e) => {
-      if (dataLoaded.overview) window.TradingViewWidgets.renderIndices('tv-indices-widget', e.detail.lang);
-      if (dataLoaded.tickers) renderTickerTab(e.detail.lang);
-      if (dataLoaded.movers) window.TradingViewWidgets.renderMovers('tv-movers-widget', e.detail.lang);
-      if (dataLoaded.stocks) window.TradingViewWidgets.renderStocks('tv-stocks-widget', e.detail.lang);
+      onLangChange(e.detail.lang);
     });
 
     const overviewSection = qs('#markets');
-    const moversSection = qs('#movers');
-    const stocksSection = qs('#stocks');
+    const moversSection   = qs('#movers');
+    const stocksSection   = qs('#stocks');
 
     window.StockLazy.onEnterViewport(overviewSection, () => {
       loadOverview();

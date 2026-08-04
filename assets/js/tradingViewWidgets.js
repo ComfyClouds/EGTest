@@ -17,15 +17,12 @@
  *    - Hotlists          → Top Gainers / Losers / Most Active for EGX
  *    - Screener          → full searchable/sortable EGX company list
  *
- * Symbols were verified directly against TradingView's own symbol pages
- * before use — note EGX 70 and EGX 100 use the "EWI" (Equal-Weight Index)
- * suffix in TradingView's system, not plain "EGX70"/"EGX100".
- *
- * Caveat worth knowing: TradingView's own widget FAQ states plainly that
- * their free widgets do not carry real-time data for every exchange —
- * "To get real-time data on your website, contact the exchange directly."
- * Treat these as delayed/reference data, same caveat as any other
- * non-licensed market data source.
+ * Bilingual support: all widgets accept a `locale` parameter. When the
+ * page language is Arabic ('ar'), TradingView renders its own UI labels
+ * (column headers, tooltips, buttons) in Arabic. Stock ticker symbols and
+ * company names shown by TradingView reflect their own database — EGX
+ * companies appear with Arabic names in TradingView's system where
+ * available. The widget UI direction is also adjusted to RTL for Arabic.
  */
 
 (function () {
@@ -74,8 +71,37 @@
     return wrapper;
   }
 
+  /**
+   * Maps our internal lang code to TradingView's locale string.
+   * TradingView supports 'ar' natively — the widget UI (column headers,
+   * tooltips, navigation) renders in Arabic when locale is 'ar'.
+   */
   function tvLocale(lang) {
     return lang === 'ar' ? 'ar' : 'en';
+  }
+
+  /**
+   * Bilingual copyright labels shown beneath each widget.
+   */
+  function copyrightText(label, lang) {
+    if (lang === 'ar') {
+      const labels = {
+        indices: 'مؤشرات البورصة المصرية — TradingView',
+        movers:  'أكثر الأسهم تحركاً في مصر — TradingView',
+        stocks:  'فاحص أسهم البورصة المصرية — TradingView',
+        ticker:  'شريط السوق — TradingView',
+        hero:    'لقطة السوق المصري — TradingView'
+      };
+      return labels[label] || 'TradingView';
+    }
+    const labels = {
+      indices: 'EGX Indices by TradingView',
+      movers:  'Egypt hotlists by TradingView',
+      stocks:  'Egypt stock screener by TradingView',
+      ticker:  'Stock Market Ticker by TradingView',
+      hero:    'EGX Snapshot by TradingView'
+    };
+    return labels[label] || 'TradingView';
   }
 
   /**
@@ -101,14 +127,14 @@
           {
             title: lang === 'ar' ? 'مؤشرات البورصة المصرية' : 'EGX Indices',
             symbols: [
-              { s: 'EGX:EGX30', d: 'EGX 30' },
-              { s: 'EGX:EGX70EWI', d: 'EGX 70' },
-              { s: 'EGX:EGX100EWI', d: 'EGX 100' }
+              { s: 'EGX:EGX30',     d: lang === 'ar' ? 'مؤشر EGX 30' : 'EGX 30' },
+              { s: 'EGX:EGX70EWI',  d: lang === 'ar' ? 'مؤشر EGX 70' : 'EGX 70' },
+              { s: 'EGX:EGX100EWI', d: lang === 'ar' ? 'مؤشر EGX 100' : 'EGX 100' }
             ]
           }
         ]
       },
-      'EGX Indices by TradingView'
+      copyrightText('indices', lang)
     );
     container.appendChild(widget);
   }
@@ -136,7 +162,7 @@
         showSymbolLogo: true,
         showFloatingTooltip: true
       },
-      'Egypt hotlists by TradingView'
+      copyrightText('movers', lang)
     );
     container.appendChild(widget);
   }
@@ -161,7 +187,7 @@
         market: 'egypt',
         colorTheme: 'light'
       },
-      'Egypt stock screener by TradingView'
+      copyrightText('stocks', lang)
     );
     container.appendChild(widget);
   }
@@ -178,16 +204,16 @@
       'ticker-tape',
       {
         symbols: [
-          { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي' : 'EGX 30 Index' },
-          { proName: 'EGX:COMI', description: 'COMI — البنك التجاري الدولي' },
-          { proName: 'EGX:TMGH', description: 'TMGH — طلعت مصطفى' },
-          { proName: 'EGX:HRHO', description: 'HRHO — المجموعة المالية هيرميس' },
-          { proName: 'EGX:SWDY', description: 'SWDY — السويدي إليكتريك' },
-          { proName: 'EGX:ETEL', description: 'ETEL — المصرية للاتصالات' },
-          { proName: 'EGX:ORAS', description: 'ORAS — أوراسكوم للإنشاءات' },
-          { proName: 'EGX:EAST', description: 'EAST — الشرقية للدخان' },
-          { proName: 'EGX:ABUK', description: 'ABUK — أبو قير للأسمدة' },
-          { proName: 'EGX:EFIH', description: 'EFIH — إي فاينانس' }
+          { proName: 'EGX:EGX30', description: lang === 'ar' ? 'EGX 30 — المؤشر الرئيسي'       : 'EGX 30 Index' },
+          { proName: 'EGX:COMI',  description: lang === 'ar' ? 'COMI — البنك التجاري الدولي'    : 'COMI — CIB' },
+          { proName: 'EGX:TMGH',  description: lang === 'ar' ? 'TMGH — طلعت مصطفى'              : 'TMGH — Talaat Moustafa' },
+          { proName: 'EGX:HRHO',  description: lang === 'ar' ? 'HRHO — المجموعة المالية هيرميس' : 'HRHO — EFG Hermes' },
+          { proName: 'EGX:SWDY',  description: lang === 'ar' ? 'SWDY — السويدي إليكتريك'        : 'SWDY — El Sewedy Electric' },
+          { proName: 'EGX:ETEL',  description: lang === 'ar' ? 'ETEL — المصرية للاتصالات'       : 'ETEL — Telecom Egypt' },
+          { proName: 'EGX:ORAS',  description: lang === 'ar' ? 'ORAS — أوراسكوم للإنشاءات'      : 'ORAS — Orascom Construction' },
+          { proName: 'EGX:EAST',  description: lang === 'ar' ? 'EAST — الشرقية للدخان'          : 'EAST — Eastern Co.' },
+          { proName: 'EGX:ABUK',  description: lang === 'ar' ? 'ABUK — أبو قير للأسمدة'         : 'ABUK — Abu Qir Fertilizers' },
+          { proName: 'EGX:EFIH',  description: lang === 'ar' ? 'EFIH — إي فاينانس'              : 'EFIH — e-Finance' }
         ],
         showSymbolLogo: true,
         isTransparent: false,
@@ -195,7 +221,7 @@
         colorTheme: 'light',
         locale: tvLocale(lang)
       },
-      'Stock Market Ticker by TradingView'
+      copyrightText('ticker', lang)
     );
     container.appendChild(widget);
   }
@@ -212,7 +238,7 @@
       'symbol-overview',
       {
         symbols: [
-          ['EGX 30', 'EGX:EGX30|1D'],
+          [lang === 'ar' ? 'مؤشر EGX 30' : 'EGX 30', 'EGX:EGX30|1D'],
           ['COMI', 'EGX:COMI|1D'],
           ['TMGH', 'EGX:TMGH|1D'],
           ['HRHO', 'EGX:HRHO|1D'],
@@ -238,7 +264,7 @@
         changeMode: 'price-and-percent',
         chartType: 'area'
       },
-      'EGX Snapshot by TradingView'
+      copyrightText('hero', lang)
     );
     container.appendChild(widget);
   }

@@ -44,6 +44,9 @@
       window.StockLazy.initRevealObserver();
       window.StockLazy.initImageFadeIn();
       window.StockAutoRefresh.init();
+
+      // AI Market Assistant — bilingual floating chat widget
+      if (window.EGAIAssistant) window.EGAIAssistant.init();
     }).catch((err) => {
       console.error('Economic Group — initialization error:', err);
     });

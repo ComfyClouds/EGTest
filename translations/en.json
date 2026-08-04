@@ -277,5 +277,25 @@
     "newsletter_already": "This email is already on the list — you're all set!",
     "newsletter_error": "Something went wrong. Please try again.",
     "footer_note": "Growth is our target — the app is next."
+  },
+  "ai_assistant": {
+    "header_name": "AI Market Assistant",
+    "header_status": "Online",
+    "input_placeholder": "Ask about any stock… e.g. TMGH or CIB",
+    "send_label": "Send",
+    "close_label": "Close chat",
+    "disclaimer": "Data is delayed 15 min — not investment advice.",
+    "welcome": "Hello! I'm the AI Market Assistant from Economic Group.\n\nAsk me about any EGX-listed stock — for example: \"Tell me about TMGH\", \"Compare CIB and COMI\", or \"How is the banking sector doing?\"",
+    "chips": [
+      "Market overview",
+      "Top gainers",
+      "Banking sector",
+      "TMGH",
+      "CIB",
+      "EGX30"
+    ],
+    "thinking": "Analysing…",
+    "error": "Something went wrong. Please try again.",
+    "api_key_missing": "API key not configured. Contact the site administrator."
   }
 }
