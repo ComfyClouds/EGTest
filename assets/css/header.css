@@ -133,8 +133,8 @@
   clip-path: inset(12% 2% 8% 2%); 
   
   /* Brighten and boost contrast to turn the light gray card white so multiply hides it */
-  filter: contrast(4) brightness(1);
-  mix-blend-mode: screen;
+  filter: contrast(1.5) brightness(1);
+  mix-blend-mode: multiply;
   
   transition: width var(--dur-base) var(--ease-out);
 }
