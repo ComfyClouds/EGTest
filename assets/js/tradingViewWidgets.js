@@ -13,9 +13,9 @@
  * branded UI, not our custom design system.
  *
  * Widgets used (all free, no API key, official TradingView embed scripts):
- *   - Market Overview  → EGX 30 / EGX 70 / EGX 100
- *   - Hotlists          → Top Gainers / Losers / Most Active for EGX
- *   - Screener          → full searchable/sortable EGX company list
+ *    - Market Overview  → EGX 30 / EGX 70 / EGX 100
+ *    - Hotlists          → Top Gainers / Losers / Most Active for EGX
+ *    - Screener          → full searchable/sortable EGX company list
  *
  * Symbols were verified directly against TradingView's own symbol pages
  * before use — note EGX 70 and EGX 100 use the "EWI" (Equal-Weight Index)
@@ -191,7 +191,7 @@
         ],
         showSymbolLogo: true,
         isTransparent: false,
-        displayMode: 'regular',
+        displayMode: 'adaptive',
         colorTheme: 'light',
         locale: tvLocale(lang)
       },
