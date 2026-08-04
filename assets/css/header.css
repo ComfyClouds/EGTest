@@ -596,32 +596,35 @@ html[dir="rtl"] .mobile-drawer.is-open {
 
 /* ---------- TradingView Ticker Tape (scrolling EGX price strip) ---------- */
 
-    .tv-ticker-tape-wrap {
-      position: relative; /* Fixed sticky container width calculation issues */
-      width: 100%;
-      max-width: 100vw;
-      display: block;
-      z-index: calc(var(--z-sticky) - 1);
-      background: var(--color-surface, #ffffff);
-      border-bottom: 1px solid var(--color-border);
-      transition: top var(--dur-base) var(--ease-out);
-      overflow: hidden;
-    }
+.tv-ticker-tape-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  display: block;
+  z-index: calc(var(--z-sticky) - 1);
+  background: var(--color-surface, #ffffff);
+  border-bottom: 1px solid var(--color-border);
+  transition: top var(--dur-base) var(--ease-out);
+  min-height: 46px;
+}
 
-    .site-header.is-scrolled ~ .tv-ticker-tape-wrap {
-      top: var(--header-height-scrolled);
-    }
+.site-header.is-scrolled ~ .tv-ticker-tape-wrap {
+  top: var(--header-height-scrolled);
+}
 
-    /* Force static height and block layout on TradingView's internal wrappers */
-    .tv-ticker-tape-wrap .tradingview-widget-container,
-    .tv-ticker-tape-wrap .tradingview-widget-container__widget {
-      width: 100% !important;
-      height: 46px !important;
-      min-height: 46px !important;
-      display: block !important;
-    }
+/* Allow TradingView's internal container to size itself dynamically */
+.tv-ticker-tape-wrap .tradingview-widget-container {
+  width: 100% !important;
+  min-height: 46px;
+  display: block;
+}
 
-    .tv-ticker-tape-wrap iframe {
-      width: 100% !important;
-      height: 46px !important;
-    }
+.tv-ticker-tape-wrap .tradingview-widget-container__widget {
+  width: 100% !important;
+  min-height: 46px;
+}
+
+.tv-ticker-tape-wrap iframe {
+  width: 100% !important;
+  min-height: 46px !important;
+}
