@@ -186,7 +186,7 @@
    * (Orascom Construction), EAST (Eastern Company), ABUK (Abou Kir
    * Fertilizers), EFIH (e-finance).
    */
-  function renderTickerTape(containerId, lang) {
+ function renderTickerTape(containerId, lang) {
     const container = document.getElementById(containerId);
     if (!container) return;
     clearContainer(container);
@@ -208,7 +208,7 @@
         ],
         showSymbolLogo: true,
         isTransparent: false,
-        displayMode: 'adaptive',
+        displayMode: 'regular',
         colorTheme: 'light',
         locale: tvLocale(lang)
       },
@@ -216,7 +216,6 @@
     );
     container.appendChild(widget);
   }
-
   /**
    * Symbol Overview widget for the hero's small "Live Snapshot" panel —
    * replaces the previous custom-rendered index value + top-movers list,
