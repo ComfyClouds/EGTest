@@ -33,6 +33,10 @@
 
 .teaser-topbar .brand-mark-static img {
   display: block;
+    mix-blend-mode: screen;
+  
+  /* Makes the dark blue logo lines bright white */
+  filter: brightness(1) contrast(4);
 }
 
 /* ---------- Hero ---------- */
