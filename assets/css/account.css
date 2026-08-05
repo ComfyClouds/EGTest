@@ -145,7 +145,7 @@ html[dir="rtl"] .account-form .form-textarea {
 }
 
 .account-form .form-textarea {
-  resize: vertical;
+  resize: none;
 }
 
 .account-form .form-input::placeholder,
