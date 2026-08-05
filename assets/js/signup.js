@@ -24,6 +24,19 @@
     if (errorEl) errorEl.classList.remove('is-visible');
   }
 
+  /**
+   * Strips any non-digit character as the user types and caps the value
+   * at 11 digits, so letters/symbols can never enter the phone field.
+   */
+  function initPhoneDigitsOnly(form) {
+    const phoneField = qs('#signup-phone', form);
+    if (!phoneField) return;
+    phoneField.addEventListener('input', () => {
+      const digitsOnly = phoneField.value.replace(/\D/g, '').slice(0, 11);
+      if (digitsOnly !== phoneField.value) phoneField.value = digitsOnly;
+    });
+  }
+
   function validateForm(form) {
     let isValid = true;
     const nameField = qs('#signup-name', form);
@@ -32,8 +45,9 @@
     const addressField = qs('#signup-address', form);
     const requiredMsg = window.I18n.t('contact_form.required_field');
     const emailMsg = window.I18n.t('contact_form.invalid_email');
+    const phoneMsg = window.I18n.t('account.invalid_phone');
 
-    [nameField, phoneField, addressField].forEach((field) => {
+    [nameField, addressField].forEach((field) => {
       if (!field.value.trim()) {
         showFieldError(field, requiredMsg);
         isValid = false;
@@ -41,6 +55,16 @@
         clearFieldError(field);
       }
     });
+
+    if (!phoneField.value.trim()) {
+      showFieldError(phoneField, requiredMsg);
+      isValid = false;
+    } else if (phoneField.value.trim().length !== 11) {
+      showFieldError(phoneField, phoneMsg);
+      isValid = false;
+    } else {
+      clearFieldError(phoneField);
+    }
 
     if (!emailField.value.trim()) {
       showFieldError(emailField, requiredMsg);
@@ -62,6 +86,8 @@
           showFieldError(field, window.I18n.t('contact_form.required_field'));
         } else if (field.type === 'email' && field.value.trim() && !isValidEmail(field.value.trim())) {
           showFieldError(field, window.I18n.t('contact_form.invalid_email'));
+        } else if (field.id === 'signup-phone' && field.value.trim() && field.value.trim().length !== 11) {
+          showFieldError(field, window.I18n.t('account.invalid_phone'));
         } else {
           clearFieldError(field);
         }
@@ -75,6 +101,7 @@
     const statusEl = qs('#signup-form-status');
 
     initFieldBlurValidation(form);
+    initPhoneDigitsOnly(form);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
