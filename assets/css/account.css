@@ -24,6 +24,29 @@
   color: var(--color-white);
 }
 
+/* ---------- Logo ----------
+   Deliberately separate from header.css's .brand-mark: that treatment
+   (mix-blend-mode: multiply) is tuned for the site header's light
+   background. The account topbar sits on a dark navy gradient, so this
+   uses `screen` instead, which brightens against dark backgrounds. */
+
+.account-brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.account-brand-mark img {
+  width: clamp(150px, 13vw, 190px);
+  height: auto;
+  display: block;
+  object-fit: contain;
+  clip-path: inset(12% 2% 8% 2%);
+  mix-blend-mode: screen;
+  filter: contrast(4) brightness(1);
+}
+
 .account-main {
   flex: 1;
   display: flex;
@@ -122,9 +145,6 @@ html[dir="rtl"] .account-form .form-textarea {
 }
 
 .account-form .form-textarea {
-  min-height: 104px;
-  padding-top: 14px;
-  background-position-y: 16px;
   resize: vertical;
 }
 
