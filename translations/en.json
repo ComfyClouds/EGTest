@@ -103,6 +103,7 @@
     "submit": "Register",
     "sending": "Submitting…",
     "error": "Something went wrong. Please try again.",
+    "invalid_phone": "Please enter exactly 11 digits.",
     "back_to_home": "Back to Home"
   },
   "thank_you": {
